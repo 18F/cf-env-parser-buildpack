@@ -7,19 +7,19 @@ mkdir -p .profile.d
 touch .profile.d/parse.sh
 
 # Find the number of user-provided services
-LENGTH=$(cat bad-cups.json | jq '.["user-provided"] | length')
+LENGTH=$(cat $VCAP_SERVICES | jq '.["user-provided"] | length')
 echo "Found $LENGTH services"
 LENGTH=$(($LENGTH - 1))
 
 for n in $(seq 0 $LENGTH); do
   # The name of the service is nested in VCAP_SERVICES, so pull that out
-  NAME=$(cat bad-cups.json | jq --argjson n $n '.["user-provided"][$n]["name"]')
+  NAME=$(cat $VCAP_SERVICES | jq --argjson n $n '.["user-provided"][$n]["name"]')
   echo "Getting settings for $NAME"
 
   # Create arrays for keys and values
   # There may be a cleaner way to do this, but it works
-  KEYS=($(cat bad-cups.json | jq -r --argjson n $n '.["user-provided"][$n]["credentials"] | keys[]'))
-  VALUES=($(cat bad-cups.json | jq -r --argjson n $n '.["user-provided"][$n]["credentials"][]'))
+  KEYS=($(cat $VCAP_SERVICES | jq -r --argjson n $n '.["user-provided"][$n]["credentials"] | keys[]'))
+  VALUES=($(cat $VCAP_SERVICES | jq -r --argjson n $n '.["user-provided"][$n]["credentials"][]'))
 
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
