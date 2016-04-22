@@ -9,7 +9,7 @@ type jq
 
 echo "Parsing VCAP_SERVICES"
 
-cd $BUILD_DIR
+cd /home/vcap/app
 mkdir -p .profile.d
 touch .profile.d/parse.sh
 
