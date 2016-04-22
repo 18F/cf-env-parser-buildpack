@@ -27,7 +27,7 @@ LENGTH=$(($LENGTH - 1))
 
 for n in $(seq 0 $LENGTH); do
   # The name of the service is nested in VCAP_SERVICES, so pull that out
-  NAME=$(echo $VCAP_SERVICES | ./jq-linux64 --argjson n $n '.["user-provided"][$n]["name"]')
+  NAME=$(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n '.["user-provided"][$n]["name"]')
   echo "Getting settings for $NAME"
 
   # Create arrays for keys and values
@@ -38,7 +38,7 @@ for n in $(seq 0 $LENGTH); do
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
   while [ $COUNTER -lt  ${#KEYS[@]} ]; do
-    echo "export $NAME-${KEYS[$COUNTER]}=${VALUES[$COUNTER]}" >> .profile.d/parse.sh
+    echo "export ${NAME//-/_}_${KEYS[$COUNTER]}=${VALUES[$COUNTER]}" >> .profile.d/parse.sh
     let COUNTER=COUNTER+1
   done
 done
