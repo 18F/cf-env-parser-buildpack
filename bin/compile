@@ -11,9 +11,14 @@ ENV_DIR=${3:-}
 
 echo "Parsing VCAP_SERVICES"
 
+# Create script to hold export commands
 cd $BUILD_DIR
 mkdir -p .profile.d
 touch .profile.d/parse.sh
+
+# The jq version is old, so get the newer one
+wget https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64
+chmod +x ./jq-linux64
 
 # Find the number of user-provided services
 LENGTH=$(echo $VCAP_SERVICES | jq '.["user-provided"] | length')
@@ -22,13 +27,13 @@ LENGTH=$(($LENGTH - 1))
 
 for n in $(seq 0 $LENGTH); do
   # The name of the service is nested in VCAP_SERVICES, so pull that out
-  NAME=$(echo $VCAP_SERVICES | jq --argjson n $n '.["user-provided"][$n]["name"]')
+  NAME=$(echo $VCAP_SERVICES | ./jq-linux64 --argjson n $n '.["user-provided"][$n]["name"]')
   echo "Getting settings for $NAME"
 
   # Create arrays for keys and values
   # There may be a cleaner way to do this, but it works
-  KEYS=($(echo $VCAP_SERVICES | jq -r --argjson n $n '.["user-provided"][$n]["credentials"] | keys[]'))
-  VALUES=($(echo $VCAP_SERVICES | jq -r --argjson n $n '.["user-provided"][$n]["credentials"][]'))
+  KEYS=($(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n '.["user-provided"][$n]["credentials"] | keys[]'))
+  VALUES=($(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n '.["user-provided"][$n]["credentials"][]'))
 
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
