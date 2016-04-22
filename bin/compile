@@ -38,7 +38,7 @@ for n in $(seq 0 $LENGTH); do
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
   while [ $COUNTER -lt  ${#KEYS[@]} ]; do
-    echo "export $name-${KEYS[$COUNTER]}=${VALUES[$COUNTER]}" >> .profile.d/parse.sh
+    echo "export $NAME-${KEYS[$COUNTER]}=${VALUES[$COUNTER]}" >> .profile.d/parse.sh
     let COUNTER=COUNTER+1
   done
 done
