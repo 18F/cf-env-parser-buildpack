@@ -42,3 +42,5 @@ for n in $(seq 0 $LENGTH); do
     let COUNTER=COUNTER+1
   done
 done
+
+rm ./jq-linux64
