@@ -8,6 +8,8 @@ This buildpack should be used as part of a [multi-buildpack setup](https://githu
 
 If an app has user-provided services, Cloud Foundry provides information about those services in an environment variable called `VCAP_SERVICES`. It's JSON, and you can read more about it in the [CF docs](http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#VCAP-SERVICES). This buildpack pulls out the `name` and `credentials` values, and provides them as separate environment variables in the format `name_credential-key=credential-value`.
 
+To remove the `name` from the variable, set `SHORTEN_VCAP: true` in the manifest.
+
 ### Be aware of risks
 
 If you are setting your own buildpacks, be aware that you are taking on the responsibility for the security of those buildpacks in your application. You should check them to be aware of what you're running. To see which buildpacks are supported and maintained on your Cloud Foundry instance, you can run `cf buildpacks`.

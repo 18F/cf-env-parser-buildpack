@@ -38,7 +38,13 @@ for n in $(seq 0 $LENGTH); do
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
   while [ $COUNTER -lt  ${#KEYS[@]} ]; do
-    echo "export ${NAME//-/_}_${KEYS[$COUNTER]}=${VALUES[$COUNTER]}" >> .profile.d/parse.sh
+    shopt -s nocasematch
+    if [[ "$SHORTEN_VCAP" == "true" ]]; then
+      cmd="export ${KEYS[$COUNTER]}=${VALUES[$COUNTER]}"
+    else
+      cmd="export ${NAME//-/_}_${KEYS[$COUNTER]}=${VALUES[$COUNTER]}"
+    fi
+    echo $cmd >> .profile.d/parse.sh
     let COUNTER=COUNTER+1
   done
 done
