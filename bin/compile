@@ -5,11 +5,13 @@ set -o pipefail   # don't ignore exit codes when piping output
 set -o nounset    # fail on unset variables
 unset GIT_DIR     # Avoid GIT_DIR leak from previous build steps
 
-type jq
+BUILD_DIR=${1:-}
+CACHE_DIR=${2:-}
+ENV_DIR=${3:-}
 
 echo "Parsing VCAP_SERVICES"
 
-cd /home/vcap/app
+cd $BUILD_DIR
 mkdir -p .profile.d
 touch .profile.d/parse.sh
 
