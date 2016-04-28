@@ -1,6 +1,6 @@
 # cf-env-parser-buildpack
 
-A buildpack designed to pull environment variables out of `VCAP_SERVICES` when using a user-provided services on Cloud Foundry.
+A buildpack designed to pull environment variables out of `VCAP_SERVICES` when using a user-provided service on Cloud Foundry.
 
 ## Usage
 
