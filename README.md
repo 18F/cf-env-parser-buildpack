@@ -6,7 +6,7 @@ A buildpack designed to pull environment variables out of `VCAP_SERVICES` when u
 
 This buildpack should be used as part of a [multi-buildpack setup](https://github.com/ddollar/heroku-buildpack-multi).
 
-If an app has user-provided services, Cloud Foundry provides information about those services in an environment variable called `VCAP_SERVICES`. It's JSON, and you can read more about it in the [CF docs](http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#VCAP-SERVICES). This buildpack pulls out the `name` and `credentials` values, and provides them as separate environment variables in the format `NAME_CREDENTIAL-KEY=credential-value`.
+If an app has user-provided services, Cloud Foundry provides information about those services in an environment variable called `VCAP_SERVICES`. It's JSON, and you can read more about it in the [CF docs](http://docs.cloudfoundry.org/devguide/deploy-apps/environment-variable.html#VCAP-SERVICES). This buildpack pulls out the `name` and `credentials` values, and provides them as separate environment variables in the format `NAME_CREDENTIAL_KEY=credential_value`. Note that hyphens in `name` will cause errors, so the buildpack converts them to underscores. 
 
 By default, the buildpack converts variable keys to uppercase. To leave them as-is, set `UPPERCASE: false` in the manifest.
 
