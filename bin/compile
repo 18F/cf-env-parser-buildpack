@@ -9,6 +9,7 @@ BUILD_DIR=${1:-}
 CACHE_DIR=${2:-}
 ENV_DIR=${3:-}
 SHORTEN_VCAP=${SHORTEN_VCAP:-"false"}
+UPPERCASE=${UPPERCASE:-"true"}
 
 echo "Parsing VCAP_SERVICES"
 
@@ -35,6 +36,11 @@ for n in $(seq 0 $LENGTH); do
   # There may be a cleaner way to do this, but it works
   KEYS=($(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n '.["user-provided"][$n]["credentials"] | keys[]'))
   VALUES=($(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n '.["user-provided"][$n]["credentials"][]'))
+
+  if [[ "$UPPERCASE" == "true" ]]; then
+    KEYS=${KEYS^^}
+    NAME=${NAME^^}
+  fi
 
   # Loop through the arrays in parallel and create export statements
   COUNTER=0
