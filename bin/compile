@@ -49,10 +49,10 @@ for n in $(seq 0 $LENGTH); do
   while [ $COUNTER -lt  ${#KEYS[@]} ]; do
     shopt -s nocasematch # So that users can set true, True, or TRUE
     if [[ "$SHORTEN_VCAP" == "true" ]]; then
-      cmd="export ${KEYS[$COUNTER]}=${VALUES[$COUNTER]}"
+      cmd="export \"${KEYS[$COUNTER]}=${VALUES[$COUNTER]}\""
     else
       # Dashes cause failures for bash variables, so convert them
-      cmd="export ${NAME//-/_}_${KEYS[$COUNTER]}=${VALUES[$COUNTER]}"
+      cmd="export \"${NAME//-/_}_${KEYS[$COUNTER]}=${VALUES[$COUNTER]}\""
     fi
     echo $cmd >> .profile.d/parse.sh
     let COUNTER=COUNTER+1
