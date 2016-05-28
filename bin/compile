@@ -39,8 +39,8 @@ for n in $(seq 0 $LENGTH); do
   # Get each key-value pair and create an export statement
   KEYS_LENGTH=$(($KEYS_LENGTH - 1))
   for i in $(seq 0 $KEYS_LENGTH); do
-    KEY="$(echo $VCAP_SERVICES | jq -r --argjson n $n --argjson i $i '.["user-provided"][$n]["credentials"] | keys[$i]')"
-    VALUE="$(echo $VCAP_SERVICES | jq -r --argjson n $n --arg key $KEY '.["user-provided"][$n]["credentials"][$key]')"
+    KEY="$(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n --argjson i $i '.["user-provided"][$n]["credentials"] | keys[$i]')"
+    VALUE="$(echo $VCAP_SERVICES | ./jq-linux64 -r --argjson n $n --arg key $KEY '.["user-provided"][$n]["credentials"][$key]')"
 
     if [[ "$UPPERCASE" == "true" ]]; then
       # Convert KEY and NAME to uppercase
